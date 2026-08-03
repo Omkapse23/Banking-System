@@ -67,7 +67,7 @@ public class CustomerService {
 
         CustomerLoginResponse response = new CustomerLoginResponse();
 
-        response.setCustomerId(customer.getId());
+        response.setCustomerId(customer.getCustomerId());
         response.setFirstName(customer.getFirstName());
         response.setLastName(customer.getLastName());
         response.setEmail(customer.getEmail());
