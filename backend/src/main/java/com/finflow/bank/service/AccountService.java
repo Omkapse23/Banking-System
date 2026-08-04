@@ -11,6 +11,7 @@ import com.finflow.bank.entity.Account;
 import com.finflow.bank.entity.Branch;
 import com.finflow.bank.entity.Customer;
 import com.finflow.bank.enums.AccountStatus;
+import com.finflow.bank.exception.ResourceNotFoundException;
 import com.finflow.bank.repository.AccountRepository;
 import com.finflow.bank.repository.BranchRepository;
 import com.finflow.bank.repository.CustomerRepository;
@@ -41,14 +42,14 @@ public class AccountService {
                 customerRepository.findById(request.getCustomerId());
 
         if (customerOptional.isEmpty()) {
-            throw new RuntimeException("Customer not found");
+            throw new ResourceNotFoundException("Customer not found");
         }
 
         Optional<Branch> branchOptional =
                 branchRepository.findById(request.getBranchId());
 
         if (branchOptional.isEmpty()) {
-            throw new RuntimeException("Branch not found");
+            throw new ResourceNotFoundException("Branch not found");
         }
 
         Customer customer = customerOptional.get();

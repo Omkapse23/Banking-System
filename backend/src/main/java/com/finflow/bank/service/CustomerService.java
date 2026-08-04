@@ -11,6 +11,7 @@ import com.finflow.bank.dto.CustomerLoginResponse;
 import com.finflow.bank.dto.CustomerRegistrationRequest;
 import com.finflow.bank.entity.Customer;
 import com.finflow.bank.enums.CustomerStatus;
+import com.finflow.bank.exception.ResourceNotFoundException;
 import com.finflow.bank.repository.CustomerRepository;
 
 @Service
@@ -56,7 +57,7 @@ public class CustomerService {
         Optional<Customer> customerOptional = customerRepository.findByEmail(request.getEmail());
 
         if(customerOptional.isEmpty()) {
-            throw new RuntimeException("Customer not found");
+            throw new ResourceNotFoundException("Customer not found");
         }
 
         Customer customer = customerOptional.get();

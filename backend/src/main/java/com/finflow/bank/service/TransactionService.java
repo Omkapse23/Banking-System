@@ -1,17 +1,21 @@
 package com.finflow.bank.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.finflow.bank.dto.DepositRequest;
+import com.finflow.bank.dto.TransactionResponse;
 import com.finflow.bank.dto.TransferRequest;
 import com.finflow.bank.dto.WithdrawRequest;
 import com.finflow.bank.entity.Account;
 import com.finflow.bank.entity.Transaction;
 import com.finflow.bank.enums.TransactionStatus;
 import com.finflow.bank.enums.TransactionType;
+import com.finflow.bank.exception.ResourceNotFoundException;
 import com.finflow.bank.repository.AccountRepository;
 import com.finflow.bank.repository.TransactionRepository;
 
@@ -34,7 +38,7 @@ public class TransactionService {
                 accountRepository.findByAccountNumber(request.getAccountNumber());
 
         if(accountOptional.isEmpty()) {
-            throw new RuntimeException("Account not found");
+            throw new ResourceNotFoundException("Account not found");
         }
 
         Account account = accountOptional.get();
@@ -62,7 +66,7 @@ public class TransactionService {
                 accountRepository.findByAccountNumber(request.getAccountNumber());
 
         if(accountOptional.isEmpty()) {
-            throw new RuntimeException("Account not found");
+            throw new ResourceNotFoundException("Account not found");
         }
 
         Account account = accountOptional.get();
@@ -94,18 +98,22 @@ public class TransactionService {
                 accountRepository.findByAccountNumber(request.getFromAccountNumber());
 
         if(senderOptional.isEmpty()) {
-            throw new RuntimeException("Sender account not found");
+            throw new ResourceNotFoundException("Sender account not found");
         }
 
         Optional<Account> receiverOptional =
                 accountRepository.findByAccountNumber(request.getToAccountNumber());
 
         if(receiverOptional.isEmpty()) {
-            throw new RuntimeException("Receiver account not found");
+            throw new ResourceNotFoundException("Receiver account not found");
         }
 
         Account sender = senderOptional.get();
         Account receiver = receiverOptional.get();
+
+        if(sender.getAccountNumber().equals(receiver.getAccountNumber())) {
+            throw new RuntimeException("Cannot transfer to same account");
+        }
 
         if(sender.getBalance() < request.getAmount()) {
             throw new RuntimeException("Insufficient Balance");
@@ -129,6 +137,35 @@ public class TransactionService {
         transaction.setTransactionDate(LocalDateTime.now());
 
         transactionRepository.save(transaction);
+    }
+
+    public List<TransactionResponse> getTransactionHistory(String accountNumber) {
+        Optional<Account> accountOptional = accountRepository.findByAccountNumber(accountNumber);
+
+        if(accountOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Account not found");
+        }
+
+        Account account = accountOptional.get();
+
+        List<Transaction> transactions = transactionRepository.findByFromAccountOrToAccount(account, account);
+
+        List<TransactionResponse> responseList = new ArrayList<>();
+
+        for(Transaction transaction : transactions) {
+            TransactionResponse response = new TransactionResponse();
+
+            response.setTransactionId(transaction.getTransactionId());
+            response.setTransactionType(transaction.getTransactionType());
+            response.setAmount(transaction.getAmount());
+            response.setBalanceAfterTransaction(transaction.getBalanceAfterTransaction());
+            response.setTransactionStatus(transaction.getTransactionStatus());
+            response.setRemarks(transaction.getRemarks());
+            response.setTransactionDate(transaction.getTransactionDate());
+
+            responseList.add(response);
+        }
+        return responseList;
     }
 
 }

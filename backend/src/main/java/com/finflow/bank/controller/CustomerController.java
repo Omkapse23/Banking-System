@@ -10,6 +10,8 @@ import com.finflow.bank.dto.CustomerLoginResponse;
 import com.finflow.bank.dto.CustomerRegistrationRequest;
 import com.finflow.bank.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
@@ -20,7 +22,8 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
-    public String registerCustomer(@RequestBody CustomerRegistrationRequest request) {
+    
+    public String registerCustomer(@Valid @RequestBody CustomerRegistrationRequest request) {
         customerService.registerCustomer(request);
 
         return "Customer Registerd Succesfully";

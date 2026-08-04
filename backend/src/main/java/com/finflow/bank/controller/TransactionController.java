@@ -1,12 +1,17 @@
 package com.finflow.bank.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.finflow.bank.dto.DepositRequest;
+import com.finflow.bank.dto.TransactionResponse;
 import com.finflow.bank.dto.TransferRequest;
 import com.finflow.bank.dto.WithdrawRequest;
 import com.finflow.bank.service.TransactionService;
@@ -43,6 +48,13 @@ public class TransactionController {
         transactionService.transfer(request);
 
         return ResponseEntity.ok("Amount Transferred Successfully");
+    }
+
+    @GetMapping("/history/{accountNumber}")
+    public ResponseEntity<List<TransactionResponse>> getTransactionHistory(@PathVariable String accountNumber) {
+
+        return ResponseEntity.ok(
+                transactionService.getTransactionHistory(accountNumber));
     }
 
 }

@@ -15,4 +15,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findByToAccount(Account account);
 
+    List<Transaction> findByFromAccountOrToAccount(Account fromAccount, Account toAccount);
+
 }
