@@ -19,6 +19,8 @@ import com.finflow.bank.exception.ResourceNotFoundException;
 import com.finflow.bank.repository.AccountRepository;
 import com.finflow.bank.repository.TransactionRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TransactionService {
 
@@ -32,6 +34,7 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    @Transactional
     public void deposit(DepositRequest request) {
 
         Optional<Account> accountOptional =
@@ -60,6 +63,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    @Transactional
     public void withdraw(WithdrawRequest request) {
 
         Optional<Account> accountOptional =
@@ -92,6 +96,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    @Transactional
     public void transfer(TransferRequest request) {
 
         Optional<Account> senderOptional =

@@ -17,6 +17,8 @@ import com.finflow.bank.exception.ResourceNotFoundException;
 import com.finflow.bank.repository.AccountRepository;
 import com.finflow.bank.repository.FixedDepositRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class FixedDepositService {
 
@@ -29,6 +31,7 @@ public class FixedDepositService {
         this.accountRepository = accountRepository;
     }
 
+    @Transactional
     public FixedDepositResponse createFD(FixedDepositRequest request) {
         Optional<Account> accountOptional =
         accountRepository.findByAccountNumber(request.getAccountNumber());
@@ -96,18 +99,7 @@ public class FixedDepositService {
 
         fixedDepositRepository.save(fixedDeposit);
 
-        FixedDepositResponse response = new FixedDepositResponse();
-
-        response.setFdNumber(fixedDeposit.getFdNumber());
-        response.setAccountNumber(account.getAccountNumber());
-        response.setPrincipalAmount(fixedDeposit.getPrincipalAmount());
-        response.setInterestRate(fixedDeposit.getInterestRate());
-        response.setTenureMonths(fixedDeposit.getTenureMonths());
-        response.setMaturityAmount(fixedDeposit.getMaturityAmount());
-        response.setMaturityDate(fixedDeposit.getMaturityDate());
-        response.setStatus(fixedDeposit.getStatus());
-
-        return response;
+        return mapToResponse(fixedDeposit);
     }
 
     public List<FixedDepositResponse> getAllFDs(String accountNumber) {
@@ -127,18 +119,7 @@ public class FixedDepositService {
         List<FixedDepositResponse> responseList = new ArrayList<>();
 
         for(FixedDeposit fd : fixedDeposits) {
-            FixedDepositResponse response = new FixedDepositResponse();
-
-            response.setFdNumber(fd.getFdNumber());
-            response.setAccountNumber(fd.getAccount().getAccountNumber());
-            response.setPrincipalAmount(fd.getPrincipalAmount());
-            response.setInterestRate(fd.getInterestRate());
-            response.setTenureMonths(fd.getTenureMonths());
-            response.setMaturityAmount(fd.getMaturityAmount());
-            response.setMaturityDate(fd.getMaturityDate());
-            response.setStatus(fd.getStatus());
-
-            responseList.add(response);
+            responseList.add(mapToResponse(fd));
         }
 
         return responseList;
@@ -155,20 +136,10 @@ public class FixedDepositService {
 
         FixedDeposit fd = fdOptional.get();
 
-        FixedDepositResponse response = new FixedDepositResponse();
-
-        response.setFdNumber(fd.getFdNumber());
-        response.setAccountNumber(fd.getAccount().getAccountNumber());
-        response.setPrincipalAmount(fd.getPrincipalAmount());
-        response.setInterestRate(fd.getInterestRate());
-        response.setTenureMonths(fd.getTenureMonths());
-        response.setMaturityAmount(fd.getMaturityAmount());
-        response.setMaturityDate(fd.getMaturityDate());
-        response.setStatus(fd.getStatus());
-
-        return response;
+        return mapToResponse(fd);
     }
 
+    @Transactional
     public FixedDepositResponse closeFD(String fdNumber) {
 
         Optional<FixedDeposit> fdOptional =
@@ -197,16 +168,22 @@ public class FixedDepositService {
         fixedDepositRepository.save(fd);
 
         // Prepare response
+        return mapToResponse(fd);
+    }
+
+    //helper method
+    private FixedDepositResponse mapToResponse(FixedDeposit fixedDeposit) {
+
         FixedDepositResponse response = new FixedDepositResponse();
 
-        response.setFdNumber(fd.getFdNumber());
-        response.setAccountNumber(account.getAccountNumber());
-        response.setPrincipalAmount(fd.getPrincipalAmount());
-        response.setInterestRate(fd.getInterestRate());
-        response.setTenureMonths(fd.getTenureMonths());
-        response.setMaturityAmount(fd.getMaturityAmount());
-        response.setMaturityDate(fd.getMaturityDate());
-        response.setStatus(fd.getStatus());
+        response.setFdNumber(fixedDeposit.getFdNumber());
+        response.setAccountNumber(fixedDeposit.getAccount().getAccountNumber());
+        response.setPrincipalAmount(fixedDeposit.getPrincipalAmount());
+        response.setInterestRate(fixedDeposit.getInterestRate());
+        response.setTenureMonths(fixedDeposit.getTenureMonths());
+        response.setMaturityAmount(fixedDeposit.getMaturityAmount());
+        response.setMaturityDate(fixedDeposit.getMaturityDate());
+        response.setStatus(fixedDeposit.getStatus());
 
         return response;
     }
