@@ -1,5 +1,6 @@
 package com.finflow.bank.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CustomerController {
     public CustomerService customerService;
 
@@ -22,7 +24,6 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
-    
     public String registerCustomer(@Valid @RequestBody CustomerRegistrationRequest request) {
         customerService.registerCustomer(request);
 

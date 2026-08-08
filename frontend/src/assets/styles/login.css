@@ -1,0 +1,23 @@
+.login-page{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    background:#f8fafc;
+}
+
+.login-card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.login-card h2{
+    font-weight:700;
+    color:#1e293b;
+}
+
+.form-control{
+    height:50px;
+    border-radius:10px;
+}

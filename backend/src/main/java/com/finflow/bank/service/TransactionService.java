@@ -15,7 +15,9 @@ import com.finflow.bank.entity.Account;
 import com.finflow.bank.entity.Transaction;
 import com.finflow.bank.enums.TransactionStatus;
 import com.finflow.bank.enums.TransactionType;
+import com.finflow.bank.exception.InsufficientBalanceException;
 import com.finflow.bank.exception.ResourceNotFoundException;
+import com.finflow.bank.exception.SameAccountTransferException;
 import com.finflow.bank.repository.AccountRepository;
 import com.finflow.bank.repository.TransactionRepository;
 
@@ -117,11 +119,11 @@ public class TransactionService {
         Account receiver = receiverOptional.get();
 
         if(sender.getAccountNumber().equals(receiver.getAccountNumber())) {
-            throw new RuntimeException("Cannot transfer to same account");
+            throw new SameAccountTransferException("Cannot transfer to same account");
         }
 
         if(sender.getBalance() < request.getAmount()) {
-            throw new RuntimeException("Insufficient Balance");
+            throw new InsufficientBalanceException("Insufficient Balance");
         }
 
         sender.setBalance(sender.getBalance() - request.getAmount());

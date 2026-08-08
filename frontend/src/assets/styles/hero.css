@@ -1,0 +1,38 @@
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    background:#f8fafc;
+    padding-top:80px;
+}
+
+.hero-tag{
+    background:#dbeafe;
+    color:#2563eb;
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:600;
+}
+
+.hero-title{
+    font-size:60px;
+    font-weight:700;
+    margin-top:25px;
+    color:#1e293b;
+}
+
+.hero-title span{
+    color:#2563eb;
+}
+
+.hero-description{
+    margin-top:20px;
+    color:#64748b;
+    font-size:18px;
+    line-height:1.8;
+}
+
+.hero-image{
+    width:100%;
+}
+

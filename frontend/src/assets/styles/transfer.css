@@ -1,0 +1,13 @@
+.card{
+    border:none;
+    border-radius:15px;
+}
+
+.form-control{
+    height:48px;
+}
+
+textarea.form-control{
+    height:120px;
+    resize:none;
+}

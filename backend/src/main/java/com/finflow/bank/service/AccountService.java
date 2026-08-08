@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.finflow.bank.dto.AccountRequest;
+import com.finflow.bank.dto.AccountResponse;
 import com.finflow.bank.entity.Account;
 import com.finflow.bank.entity.Branch;
 import com.finflow.bank.entity.Customer;
@@ -36,7 +37,11 @@ public class AccountService {
         this.branchRepository = branchRepository;
     }
 
-    public void createAccount(AccountRequest request) {
+    public AccountResponse createAccount(AccountRequest request) {
+
+        if (accountRepository.findByCustomerCustomerId(request.getCustomerId()).isPresent()) {
+            throw new RuntimeException("Customer already has an account");
+        }
 
         Optional<Customer> customerOptional =
                 customerRepository.findById(request.getCustomerId());
@@ -71,6 +76,39 @@ public class AccountService {
         // Temporary account number
         account.setAccountNumber(String.valueOf(System.currentTimeMillis()));
 
-        accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+
+            return new AccountResponse(
+            savedAccount.getAccountNumber(),
+            customer.getFirstName() + " " + customer.getLastName(),
+            branch.getBranchName(),
+            savedAccount.getAccountType(),
+            savedAccount.getBalance()
+        );
+    }
+
+    public AccountResponse getAccountByCustomerId(Long customerId) {
+
+        Account account = accountRepository
+                .findByCustomerCustomerId(customerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Account not found"));
+
+        return new AccountResponse(
+
+                account.getAccountNumber(),
+
+                account.getCustomer().getFirstName()
+                        + " "
+                        + account.getCustomer().getLastName(),
+
+                account.getBranch().getBranchName(),
+
+                account.getAccountType(),
+
+                account.getBalance()
+
+        );
+
     }
 }

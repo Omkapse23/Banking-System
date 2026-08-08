@@ -1,0 +1,23 @@
+.register-page{
+    min-height:100vh;
+    background:#f8fafc;
+    display:flex;
+    align-items:center;
+}
+
+.register-card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.register-card h2{
+    font-weight:700;
+    color:#1e293b;
+}
+
+.form-control{
+    height:50px;
+    border-radius:10px;
+}

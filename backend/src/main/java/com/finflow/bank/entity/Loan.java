@@ -62,5 +62,19 @@ public class Loan {
     @Column(nullable = false)
     private LoanStatus status;
 
+    // Employment Details
+    @Column(nullable = false)
+    private String occupation;
+
+    @Column(nullable = false)
+    private Double monthlyIncome;
+
+    @Column(nullable = false)
+    private String employerName;
+
+    @Column(nullable = false)
+    private Integer experienceYears;
+
     private LocalDateTime createdAt;
+
 }

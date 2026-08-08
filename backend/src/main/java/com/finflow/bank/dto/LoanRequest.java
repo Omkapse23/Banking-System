@@ -20,4 +20,14 @@ public class LoanRequest {
     private Double loanAmount;
 
     private Integer tenureMonths;
+
+    // Employment Details
+    private String occupation;
+
+    private Double monthlyIncome;
+
+    private String employerName;
+
+    private Integer experienceYears;
+
 }

@@ -1,0 +1,32 @@
+body {
+    background-color: #f8f9fa;
+}
+
+a {
+    text-decoration: none;
+}
+
+table th {
+    vertical-align: middle;
+}
+
+table td {
+    vertical-align: middle;
+}
+
+html,
+body,
+#root{
+    height:100%;
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+}
+
+#root{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}

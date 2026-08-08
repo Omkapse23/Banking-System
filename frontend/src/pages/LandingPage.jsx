@@ -1,0 +1,19 @@
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Features from "../components/Features";
+import WhyChoose from "../components/WhyChoose";
+import Footer from "../components/Footer";
+
+function LandingPage() {
+    return (
+        <>
+            <Navbar />
+            <Hero />
+            <Features />
+            <WhyChoose />
+            <Footer />
+        </>
+    );
+}
+
+export default LandingPage;

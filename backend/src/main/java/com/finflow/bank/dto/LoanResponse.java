@@ -31,4 +31,14 @@ public class LoanResponse {
     private Double remainingAmount;
 
     private LoanStatus status;
+
+    // Employment Details
+    private String occupation;
+
+    private Double monthlyIncome;
+
+    private String employerName;
+
+    private Integer experienceYears;
+
 }

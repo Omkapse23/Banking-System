@@ -1,0 +1,34 @@
+.why-section{
+    padding:100px 0;
+    background:#f8fafc;
+}
+
+.why-card{
+    background:#fff;
+    padding:35px;
+    border-radius:20px;
+    text-align:center;
+    transition:.3s;
+    height:100%;
+}
+
+.why-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.why-icon{
+    font-size:42px;
+    color:#2563eb;
+    margin-bottom:20px;
+}
+
+.why-card h5{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.why-card p{
+    color:#64748b;
+    line-height:1.7;
+}

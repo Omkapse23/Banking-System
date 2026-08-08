@@ -1,0 +1,76 @@
+/* Google Font */
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar */
+
+.navbar{
+    padding: 18px 0;
+    background: white !important;
+}
+
+/* Logo */
+
+.logo-box{
+
+    width:45px;
+    height:45px;
+
+    background:#2563EB;
+
+    color:white;
+
+    border-radius:12px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+    font-size:18px;
+}
+
+/* Brand */
+
+.brand-name{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#1E293B;
+
+    margin-left:12px;
+}
+
+/* Menu */
+
+.nav-link{
+
+    color:#1E293B !important;
+
+    font-weight:500;
+
+    margin-left:18px;
+
+    transition:.3s;
+}
+
+.nav-link:hover{
+
+    color:#2563EB !important;
+}
+
+/* Register Button */
+
+.register-btn{
+
+    border-radius:30px;
+
+    padding:10px 28px;
+}

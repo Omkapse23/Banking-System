@@ -14,5 +14,6 @@ public class CustomerLoginResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String accountNumber;
     private String message;
 }

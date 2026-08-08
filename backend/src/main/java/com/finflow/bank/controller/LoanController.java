@@ -3,6 +3,7 @@ package com.finflow.bank.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.finflow.bank.service.LoanService;
 
 @RestController
 @RequestMapping("/api/loans")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LoanController {
 
     private final LoanService loanService;
@@ -29,11 +31,6 @@ public class LoanController {
     public ResponseEntity<LoanResponse> applyLoan(@RequestBody LoanRequest request) {
 
         return ResponseEntity.ok(loanService.applyLoan(request));
-    }
-
-    @PutMapping("/approve/{loanNumber}")
-    public ResponseEntity<LoanResponse> approveLoan(@PathVariable String loanNumber) {
-        return ResponseEntity.ok(loanService.approveLoan(loanNumber));
     }
 
     @GetMapping("/account/{accountNumber}")
@@ -54,9 +51,26 @@ public class LoanController {
         return ResponseEntity.ok(loanService.payEmi(loanNumber));
     }
 
-    @PutMapping("/reject/{loanNumber}")
-    public ResponseEntity<LoanResponse> rejectLoan(@PathVariable String loanNumber) {
+    @GetMapping("/all")
+    public List<LoanResponse> getAllLoans() {
 
-        return ResponseEntity.ok(loanService.rejectLoan(loanNumber));
+        return loanService.getAllLoans();
+
+    }
+
+    @PutMapping("/{loanNumber}/approve")
+    public LoanResponse approveLoan(
+            @PathVariable String loanNumber) {
+
+        return loanService.approveLoan(loanNumber);
+
+    }
+
+    @PutMapping("/{loanNumber}/reject")
+    public LoanResponse rejectLoan(
+            @PathVariable String loanNumber) {
+
+        return loanService.rejectLoan(loanNumber);
+
     }
 }

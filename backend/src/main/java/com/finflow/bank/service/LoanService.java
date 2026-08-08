@@ -24,17 +24,19 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final AccountRepository accountRepository;
 
-    public LoanService(LoanRepository loanRepository, AccountRepository accountRepository) {
+    public LoanService(LoanRepository loanRepository,
+                       AccountRepository accountRepository) {
 
         this.loanRepository = loanRepository;
         this.accountRepository = accountRepository;
     }
 
     public LoanResponse applyLoan(LoanRequest request) {
-        Optional<Account> accountOptional =
-        accountRepository.findByAccountNumber(request.getAccountNumber());
 
-        if(accountOptional.isEmpty()) {
+        Optional<Account> accountOptional =
+                accountRepository.findByAccountNumber(request.getAccountNumber());
+
+        if (accountOptional.isEmpty()) {
             throw new ResourceNotFoundException("Account not found");
         }
 
@@ -68,7 +70,9 @@ public class LoanService {
                 interestRate = 10.0;
         }
 
-        double totalInterest = (request.getLoanAmount() * interestRate * request.getTenureMonths()) / (100 * 12);
+        double totalInterest =
+                (request.getLoanAmount() * interestRate * request.getTenureMonths())
+                        / (100 * 12);
 
         double totalAmount = request.getLoanAmount() + totalInterest;
 
@@ -85,6 +89,13 @@ public class LoanService {
         loan.setEmiAmount(emi);
         loan.setRemainingAmount(totalAmount);
         loan.setStatus(LoanStatus.PENDING);
+
+        // Employment Details
+        loan.setOccupation(request.getOccupation());
+        loan.setMonthlyIncome(request.getMonthlyIncome());
+        loan.setEmployerName(request.getEmployerName());
+        loan.setExperienceYears(request.getExperienceYears());
+
         loan.setCreatedAt(LocalDateTime.now());
 
         loanRepository.save(loan);
@@ -95,35 +106,38 @@ public class LoanService {
     @Transactional
     public LoanResponse approveLoan(String loanNumber) {
 
-        Optional<Loan> loanOptional = loanRepository.findByLoanNumber(loanNumber);
+        Optional<Loan> loanOptional =
+                loanRepository.findByLoanNumber(loanNumber);
 
-        if(loanOptional.isEmpty()) {
+        if (loanOptional.isEmpty()) {
             throw new ResourceNotFoundException("Loan not found");
         }
 
         Loan loan = loanOptional.get();
 
-        if(loan.getStatus() != LoanStatus.PENDING) {
+        if (loan.getStatus() != LoanStatus.PENDING) {
             throw new RuntimeException("Loan is already processed");
         }
 
-            Account account = loan.getAccount();
+        Account account = loan.getAccount();
 
-            account.setBalance(account.getBalance() + loan.getLoanAmount());
+        account.setBalance(account.getBalance() + loan.getLoanAmount());
 
-            accountRepository.save(account);
+        accountRepository.save(account);
 
-            loan.setStatus(LoanStatus.APPROVED);
-            loanRepository.save(loan);
+        loan.setStatus(LoanStatus.APPROVED);
 
-            return mapToResponse(loan);
+        loanRepository.save(loan);
+
+        return mapToResponse(loan);
     }
 
     public List<LoanResponse> getAllLoans(String accountNumber) {
 
-        Optional<Account> accountOptional = accountRepository.findByAccountNumber(accountNumber);
+        Optional<Account> accountOptional =
+                accountRepository.findByAccountNumber(accountNumber);
 
-        if(accountOptional.isEmpty()) {
+        if (accountOptional.isEmpty()) {
             throw new ResourceNotFoundException("Account not found");
         }
 
@@ -133,8 +147,10 @@ public class LoanService {
 
         List<LoanResponse> responseList = new ArrayList<>();
 
-        for(Loan loan : loans) {
+        for (Loan loan : loans) {
+
             responseList.add(mapToResponse(loan));
+
         }
 
         return responseList;
@@ -142,34 +158,35 @@ public class LoanService {
 
     public LoanResponse getLoan(String loanNumber) {
 
-        Optional<Loan> loanOptional = loanRepository.findByLoanNumber(loanNumber);
+        Optional<Loan> loanOptional =
+                loanRepository.findByLoanNumber(loanNumber);
 
-        if(loanOptional.isEmpty()) {
+        if (loanOptional.isEmpty()) {
             throw new ResourceNotFoundException("Loan not found");
         }
 
-        Loan loan = loanOptional.get();
-
-        return mapToResponse(loan);
+        return mapToResponse(loanOptional.get());
     }
 
     @Transactional
     public LoanResponse payEmi(String loanNumber) {
-        Optional<Loan> loanOptional = loanRepository.findByLoanNumber(loanNumber);
 
-        if(loanOptional.isEmpty()) {
+        Optional<Loan> loanOptional =
+                loanRepository.findByLoanNumber(loanNumber);
+
+        if (loanOptional.isEmpty()) {
             throw new ResourceNotFoundException("Loan not found");
         }
 
         Loan loan = loanOptional.get();
 
-        if(loan.getStatus() != LoanStatus.APPROVED) {
+        if (loan.getStatus() != LoanStatus.APPROVED) {
             throw new RuntimeException("Loan is not approved");
         }
 
         Account account = loan.getAccount();
 
-        if(account.getBalance() < loan.getEmiAmount()) {
+        if (account.getBalance() < loan.getEmiAmount()) {
             throw new RuntimeException("Insufficient Balance");
         }
 
@@ -177,9 +194,10 @@ public class LoanService {
 
         accountRepository.save(account);
 
-        loan.setRemainingAmount(loan.getRemainingAmount() - loan.getEmiAmount());
+        loan.setRemainingAmount(
+                loan.getRemainingAmount() - loan.getEmiAmount());
 
-        if(loan.getRemainingAmount() <= 0) {
+        if (loan.getRemainingAmount() <= 0) {
 
             loan.setRemainingAmount(0.0);
 
@@ -192,15 +210,17 @@ public class LoanService {
     }
 
     public LoanResponse rejectLoan(String loanNumber) {
-        Optional<Loan> loanOptional =loanRepository.findByLoanNumber(loanNumber);
 
-        if(loanOptional.isEmpty()) {
+        Optional<Loan> loanOptional =
+                loanRepository.findByLoanNumber(loanNumber);
+
+        if (loanOptional.isEmpty()) {
             throw new ResourceNotFoundException("Loan not found");
         }
 
         Loan loan = loanOptional.get();
 
-        if(loan.getStatus() != LoanStatus.PENDING) {
+        if (loan.getStatus() != LoanStatus.PENDING) {
             throw new RuntimeException("Loan is already processed");
         }
 
@@ -211,21 +231,43 @@ public class LoanService {
         return mapToResponse(loan);
     }
 
-    //helper method
+    // Helper Method
     private LoanResponse mapToResponse(Loan loan) {
 
-    LoanResponse response = new LoanResponse();
+        LoanResponse response = new LoanResponse();
 
-    response.setLoanNumber(loan.getLoanNumber());
-    response.setAccountNumber(loan.getAccount().getAccountNumber());
-    response.setLoanType(loan.getLoanType());
-    response.setLoanAmount(loan.getLoanAmount());
-    response.setInterestRate(loan.getInterestRate());
-    response.setTenureMonths(loan.getTenureMonths());
-    response.setEmiAmount(loan.getEmiAmount());
-    response.setRemainingAmount(loan.getRemainingAmount());
-    response.setStatus(loan.getStatus());
+        response.setLoanNumber(loan.getLoanNumber());
+        response.setAccountNumber(loan.getAccount().getAccountNumber());
+        response.setLoanType(loan.getLoanType());
+        response.setLoanAmount(loan.getLoanAmount());
+        response.setInterestRate(loan.getInterestRate());
+        response.setTenureMonths(loan.getTenureMonths());
+        response.setEmiAmount(loan.getEmiAmount());
+        response.setRemainingAmount(loan.getRemainingAmount());
+        response.setStatus(loan.getStatus());
 
-    return response;
-}
+        // Employment Details
+        response.setOccupation(loan.getOccupation());
+        response.setMonthlyIncome(loan.getMonthlyIncome());
+        response.setEmployerName(loan.getEmployerName());
+        response.setExperienceYears(loan.getExperienceYears());
+
+        return response;
+    }
+
+    public List<LoanResponse> getAllLoans() {
+
+        List<Loan> loans = loanRepository.findAll();
+
+        List<LoanResponse> response = new ArrayList<>();
+
+        for (Loan loan : loans) {
+
+            response.add(mapToResponse(loan));
+
+        }
+
+        return response;
+
+    }
 }
