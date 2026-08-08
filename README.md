@@ -78,6 +78,7 @@ Loan Management
 
 A customer cannot access the administrator login flow, and an administrator cannot access the customer banking dashboard.
 
+```text
 🏗️ System Architecture
                 ┌─────────────────────┐
                 │      React.js       │
