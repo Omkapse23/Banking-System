@@ -59,7 +59,7 @@ FinFlow provides completely separate login flows for customers and administrator
 
 ### Customer
 
-```text
+
 Customer Login
       ↓
 Customer Authentication
@@ -99,6 +99,10 @@ A customer cannot access the administrator login flow, and an administrator cann
                 │       MySQL         │
                 │      Database       │
                 └─────────────────────┘
+
+
+
+
 🛠️ Technology Stack
 Frontend
 React.js
@@ -127,6 +131,10 @@ MySQL Workbench
 Postman
 Git
 GitHub
+
+
+
+
 📁 Project Structure
 FinFlow/
 │
@@ -162,6 +170,10 @@ FinFlow/
 │   └── vite.config.js
 │
 └── README.md
+
+
+
+
 🧩 Main Modules
 Customer Module
 
@@ -219,6 +231,10 @@ Admin dashboard
 Loan application management
 Loan approval
 Loan rejection
+
+
+
+
 💰 Banking Operations
 Deposit Flow
 Customer
@@ -266,6 +282,10 @@ Deduct Amount From Sender
 Add Amount To Receiver
       ↓
 Create Transaction
+
+
+
+
 🏦 Loan Management
 
 The loan system follows an administrator approval workflow.
@@ -301,6 +321,10 @@ Loan Fully Paid
    │
    ▼
 CLOSED
+
+
+
+
 👔 Employment Information
 
 Customers provide employment information while applying for a loan.
@@ -313,6 +337,9 @@ Employer Name
 Experience in Years
 
 Administrators can review these details before approving or rejecting a loan.
+
+
+
 
 💳 Loan Types
 
@@ -338,6 +365,10 @@ Total interest
 Total payable amount
 EMI
 Remaining loan amount
+
+
+
+
 📊 Transaction History
 
 The transaction module records banking activities performed by customers.
@@ -357,6 +388,10 @@ Supported transaction types:
 DEPOSIT
 WITHDRAW
 TRANSFER
+
+
+
+
 🗄️ Database
 
 FinFlow uses MySQL as its relational database.
@@ -382,6 +417,10 @@ Customer
           ├── Transactions
           ├── Loans
           └── Fixed Deposits
+
+
+
+
 🔗 REST API Modules
 
 The backend is organized into REST API modules.
@@ -394,15 +433,18 @@ The backend is organized into REST API modules.
 
 The APIs are consumed by the React frontend using Axios.
 
+
+
+
 ⚙️ Backend Setup
 1. Clone the Repository
 git clone <your-github-repository-url>
 cd FinFlow
+
 2. Create MySQL Database
-
 Open MySQL Workbench or MySQL CLI:
-
 CREATE DATABASE bankingsystem;
+
 3. Configure Database
 
 Open:
@@ -431,6 +473,10 @@ mvn spring-boot:run
 Backend runs on:
 
 http://localhost:8080
+
+
+
+
 🎨 Frontend Setup
 
 Open a new terminal:
@@ -448,6 +494,10 @@ npm run dev
 Frontend normally runs on:
 
 http://localhost:5173
+
+
+
+
 🔄 Application Flow
                     FinFlow
                        │
@@ -466,9 +516,13 @@ http://localhost:5173
      ├── Withdraw
      ├── Transfer
      └── Fixed Deposit
+
+
+
+
 🧪 Testing
 
-The backend APIs can be tested using Postman.
+The backend APIs can be tested using Thunder Client.
 
 Important scenarios include:
 
@@ -500,44 +554,10 @@ Fixed Deposit
 Create FD
 View FD
 Close FD
-📸 Screenshots
 
-Add your actual screenshots to a screenshots folder.
 
-Recommended screenshots:
 
-screenshots/
-│
-├── landing-page.png
-├── customer-login.png
-├── customer-dashboard.png
-├── account.png
-├── deposit.png
-├── withdraw.png
-├── transfer.png
-├── transactions.png
-├── loan.png
-├── fixed-deposit.png
-├── admin-dashboard.png
-└── loan-management.png
 
-Then add them to this README:
-
-## Landing Page
-
-![Landing Page](screenshots/landing-page.png)
-
-## Customer Dashboard
-
-![Customer Dashboard](screenshots/customer-dashboard.png)
-
-## Loan Management
-
-![Loan Management](screenshots/loan-management.png)
-
-## Admin Dashboard
-
-![Admin Dashboard](screenshots/admin-dashboard.png)
 📌 Key Highlights
 Full-stack digital banking application
 Separate Customer and Admin portals
@@ -557,6 +577,10 @@ Fixed deposit management
 Account balance synchronization
 Centralized exception handling
 Responsive user interface
+
+
+
+
 🔮 Future Enhancements
 JWT-based authentication
 Spring Security
@@ -574,12 +598,16 @@ Payment gateway integration
 Docker deployment
 Cloud deployment
 Automated testing
+
+
+
+
 👨‍💻 Author
 
-Your Name
+Om S. Kapse
 
 BE Computer Engineering
 
-GitHub: <your-github-profile>
+GitHub: https://github.com/Omkapse23
 
-LinkedIn: <your-linkedin-profile>
+LinkedIn: https://www.linkedin.com/in/omskapse
