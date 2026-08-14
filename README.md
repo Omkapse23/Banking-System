@@ -127,9 +127,7 @@ Database
 MySQL
 Tools
 Visual Studio Code
-IntelliJ IDEA / Eclipse
 MySQL Workbench
-Postman
 Git
 GitHub
 
